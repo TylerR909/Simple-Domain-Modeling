@@ -20,7 +20,7 @@ class Book {
   id: string
   title: string
   author: Author
-  series?: Series              // optional
+  series?: Series             // optional
   isPublished: boolean = true // defaults to true
 }
 
@@ -75,7 +75,8 @@ Entity auto-generation follows some basic guidelines based on observed usage. By
 
 If each book should really have its own author, simply call `newBook({ author: {} })`. Providing `author: {}` will force new Author creation.
 
-> [!CAUTION] Consider these cases:
+> [!CAUTION]
+> Consider these cases:
 > - `newBook({ author: {}, series: { /* needs an author */ } })` how do we tell `series` to reuse our new `author`
 > - `newBook({ author: {}, series: { author: {} }})` what is this even attempting to say?
 > - `twoOf(() => newBook({ author: {}, series: {} }))` "two books from two different authors and on two different series" how do we tell `series` to reuse _that book's_ author?
@@ -108,19 +109,19 @@ As always, your test itself should dictate what "makes sense" to call. If you wa
 
 ## Keep it Tight
 
-A single call to `newBook({ author: {} })` and `newBook({})` are logically equivalent (multiple calls may not be). Only call define the author when: For some reason it reads well in your test, or you intentionally want to create multiple authors (for multiple books).
+A single call to `newBook({ author: {} })` and `newBook({})` are logically equivalent (multiple calls may not be). Only define the author when: For some reason it reads well in your test, or you intentionally want to create multiple authors (for multiple books).
 
 It could also make sense to call `newBook({ author: { name: "CS Lewis" } })` to give the author a specific name. They're your tests - write what makes sense.
 
 # What SDM Isn't
 
-## Isn't for App Testing
+## Not for App Testing
 
 SDM came about from a desire to test libraries and utilities with "realish" data, not for full Backend or Frontend applications. YMMV
 
 We were writing an internal library for some data processing. The library itself could be plugged into Frontend or Backend code and normal testing (GraphQL Factories, Swagger/OpenAPI Factories, Faker, MSW mocks, etc.) could proceed with integration tests. But the library itself needed tests too. We wanted to showcase "What would using these tools 'realistically' look like," so we generated some "Authors & Books" tests. Shortly thereafter, we realized we could just use our _actual_ Domain (Projects, TaskLists, and Tasks) to model how this library could be used, but we wanted to keep it lightweight. "It should be easy," we told ourselves, "to define a Simple Domain Model to showcase via unit tests how to use these tools." Thus SDM was born.
 
-# Coming Eventually
+# Coming Eventually, Maybe
 
 ## Faker
 
